@@ -130,8 +130,7 @@
   .left, .right {
     left: 0;
   }
-  
-  /* Move arrows to the left */
+
   .left .timeline-content::after, 
   .right .timeline-content::after {
     left: -20px;
