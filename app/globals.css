@@ -1,26 +1,149 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.timeline-container {
+  display: flex;
+  justify-content: center;
+  padding: 100px 0 300px 0;
+  background-color: #f7f7f7;
+  font-family: 'Arial', sans-serif;
+  overflow-x: hidden;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.timeline-wrapper {
+  position: relative;
+  max-width: 1000px;
+  width: 90%;
+  margin: 0 auto;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* The Vertical Line */
+.timeline-wrapper::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  background-color: #ff4d79; /* Pink/Red for gift vibe */
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  margin-left: -2px;
+}
+
+/* Common Item Styles */
+.timeline-item {
+  padding: 80px 40px;
+  position: relative;
+  background-color: inherit;
+  width: 50%;
+  box-sizing: border-box;
+  opacity: 0; /* Hidden for animation */
+  transform: translateY(30px);
+  transition: all 0.6s ease-in-out;
+}
+
+.timeline-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.left { left: 0; }
+.right { left: 50%; }
+
+/* The Content Box */
+.timeline-content {
+  padding: 20px 30px;
+  background-color: white;
+  position: relative;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  text-align: left;
+}
+
+/* The Date */
+.timeline-content time {
+  color: #888;
+  font-size: 14px;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* The Category Tag */
+.tag {
+  background: #ff4d79;
+  color: white;
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 12px;
+  position: absolute;
+  top: -10px;
+  right: 20px;
+}
+
+/* The Center Dot */
+.circle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border: 4px solid #ff4d79;
+  border-radius: 50%;
+  top: 20px;
+  z-index: 10;
+}
+
+/* Dot positioning */
+.left .circle { right: -50px; }
+.right .circle { left: -50px; }
+
+/* Arrows pointing to the line */
+.timeline-content::after {
+  content: " ";
+  position: absolute;
+  top: 25px;
+  border-width: 10px;
+  border-style: solid;
+}
+
+.left .timeline-content::after {
+  right: -20px;
+  border-color: transparent transparent transparent white;
+}
+
+.right .timeline-content::after {
+  left: -20px;
+  border-color: transparent white transparent transparent;
+}
+
+/* --- MOBILE RESPONSIVENESS --- */
+@media screen and (max-width: 768px) {
+  /* Move line to the left side */
+  .timeline-wrapper::after {
+    left: 31px;
   }
-}
+  
+  /* Make all items full width */
+  .timeline-item {
+    width: 100%;
+    padding-left: 70px;
+    padding-right: 25px;
+  }
+  
+  /* Reset left/right positioning */
+  .left, .right {
+    left: 0;
+  }
+  
+  /* Move arrows to the left */
+  .left .timeline-content::after, 
+  .right .timeline-content::after {
+    left: -20px;
+    border-color: transparent white transparent transparent;
+    right: auto;
+  }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* Move dots to the left line */
+  .left .circle, 
+  .right .circle {
+    left: -49px; 
+    right: auto;
+  }
+  
 }
